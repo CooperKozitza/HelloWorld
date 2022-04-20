@@ -21,7 +21,7 @@ namespace HelloWorld
         }
 
         public static TwitchAPI api = new TwitchAPI("or94frz4dm83ru11ql2x9jlik2x9hd", "bscma5xlv1ylbfxj8wafj1jmkt2ycs");
-        public static IList<Game> games = api.GetTopTenJSON();
+        public static TwitchAPI.Game[] games = api.GetTopTen(); 
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -53,21 +53,19 @@ namespace HelloWorld
         {
             public string cursor { get; set; }
         }
+        public class Game
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Box_art_url { get; set; }
+        }
 
-        public IList<Game> GetTopTenJSON()
+        public Game[] GetTopTen()
         {
             client.Headers.Add("Authorization: Bearer " + Auth);
             client.Headers.Add("Client-Id: " + Id);
-            var apiJson = client.DownloadString("https://api.twitch.tv/helix/games/top");
-            TwitchApiOutput twitchApiOutput = JsonConvert.DeserializeObject<TwitchApiOutput>(apiJson);
-            return twitchApiOutput.Data.ToList();
+            TwitchApiOutput twitchApiOutput = JsonConvert.DeserializeObject<TwitchApiOutput>(client.DownloadString("https://api.twitch.tv/helix/games/top"));
+            return twitchApiOutput.Data;
         }
-    }
-
-    public class Game
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Box_art_url { get; set; }
     }
 }
