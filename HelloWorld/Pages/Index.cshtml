@@ -8,17 +8,17 @@
     <table>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Box Art</th> 
+                <th>Box Art</th>
+                <th>Title</th> 
             </tr>
         </thead>
         <tbody>
-            @{
+           @{
                 foreach (var Game in Program.games)
                 {
                     <tr>
-                        <td>@Game.name</td>
-                        <td>@Game.box_art_url</td>
+                        <td><img src = @Game.Box_art_url.Replace("{width}", "144").Replace("{height}", "192")></td>
+                        <td>@Game.Name</td>
                     </tr>
                 }
             }
