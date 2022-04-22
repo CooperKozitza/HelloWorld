@@ -14,7 +14,7 @@
         </thead>
         <tbody>
            @{
-                foreach (var Game in Program.games)
+                foreach (var Game in Model.GameList)
                 {
                     <tr>
                         <td><img src = @Game.Box_art_url.Replace("{width}", "144").Replace("{height}", "192")></td>
