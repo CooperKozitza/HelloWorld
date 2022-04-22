@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace HelloWorld
 {
@@ -17,11 +15,12 @@ namespace HelloWorld
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-
         }
 
+        //create new API using Auth Token and Client ID
         public static TwitchAPI api = new TwitchAPI("or94frz4dm83ru11ql2x9jlik2x9hd", "bscma5xlv1ylbfxj8wafj1jmkt2ycs");
-        public static TwitchAPI.Game[] games = api.GetTopTen(); 
+        //create array to hold top ten games
+        public static TwitchAPI.Game[] games = api.GetTopTenGames();
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -29,43 +28,5 @@ namespace HelloWorld
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-    }
-
-    public class TwitchAPI
-    {
-        public TwitchAPI(string auth, string id)
-        {
-            Auth = auth;
-            Id = id;
-        }
-
-        protected string Auth { get; set; }
-        protected string Id { get; set; }
-
-        protected WebClient client = new WebClient();
-        public class TwitchApiOutput
-        {
-            public Game[] Data { get; set; }
-            public PaginationObject Pagination { get; set; }
-        }
-
-        public class PaginationObject
-        {
-            public string cursor { get; set; }
-        }
-        public class Game
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string Box_art_url { get; set; }
-        }
-
-        public Game[] GetTopTen()
-        {
-            client.Headers.Add("Authorization: Bearer " + Auth);
-            client.Headers.Add("Client-Id: " + Id);
-            TwitchApiOutput twitchApiOutput = JsonConvert.DeserializeObject<TwitchApiOutput>(client.DownloadString("https://api.twitch.tv/helix/games/top"));
-            return twitchApiOutput.Data;
-        }
     }
 }
