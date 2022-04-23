@@ -36,7 +36,7 @@ namespace HelloWorld
                 public string cursor { get; set; }
             }
 
-            public Game[] Data { get; set; }
+            public Game[] Data { get; set; } //Data Is An Array Of Games
             public PaginationObject Pagination { get; set; }
         }
 
