@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HelloWorld.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelloWorld.Pages
 {
@@ -40,8 +42,6 @@ namespace HelloWorld.Pages
 
             //create array to hold top ten games
             GameList = api.GetTopTenGames();
-
-
         }
     }
 }

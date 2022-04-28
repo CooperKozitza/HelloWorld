@@ -27,10 +27,10 @@ namespace HelloWorld
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddDbContext<SiteContext>(options =>
+            services.AddDbContext<Context>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddDatabaseDeveloperPageExceptionFilter();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

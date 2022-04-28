@@ -22,25 +22,22 @@ namespace HelloWorld
 
             var host = CreateHostBuilder(args).Build();
 
-            CreateDatabase(host);
+            CreateDatabaseIfNotExists(host);
 
             host.Run();
         }
 
         
 
-        private static void CreateDatabase(IHost host)
+        private static void CreateDatabaseIfNotExists(IHost host)
         {
-            TwitchAPI api = new TwitchAPI("or94frz4dm83ru11ql2x9jlik2x9hd", "bscma5xlv1ylbfxj8wafj1jmkt2ycs");
-            Game[] games = api.GetTopTenGames();
-
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<SiteContext>();
-                    DbInitializer.Initialize(context, games);
+                    var context = services.GetRequiredService<Context>();
+                    DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {
@@ -49,7 +46,6 @@ namespace HelloWorld
                 }
             }
         }
-
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
