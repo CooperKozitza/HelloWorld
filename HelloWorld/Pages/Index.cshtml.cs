@@ -16,9 +16,7 @@ namespace HelloWorld.Pages
         // If this was an MVC architecture this would be the Model parts
         public Game[] GameList;
 
-
         // Model definitions end here
-
 
         private readonly ILogger<IndexModel> _logger; // nice we'll use this later
 
@@ -26,7 +24,6 @@ namespace HelloWorld.Pages
         {
             _logger = logger;
         }
-
         
         /// <summary>
         /// Called before the page loads, allowing you to set up the variables 
@@ -34,8 +31,6 @@ namespace HelloWorld.Pages
         /// </summary>
         public void OnGet()
         {
-
-
 
             //create new API using Auth Token and Client ID
             // probalby should move these into a config file but I think ultimatly 
@@ -47,6 +42,6 @@ namespace HelloWorld.Pages
             GameList = api.GetTopTenGames();
 
 
+        }
     }
-}
 }

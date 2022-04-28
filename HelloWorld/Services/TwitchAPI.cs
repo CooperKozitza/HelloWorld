@@ -20,26 +20,21 @@ namespace HelloWorld.Services
             _id = id;
         }
 
-
-
         /// <summary>
         /// Returns Array Of Top Games Streaming On Twitch From Twitch API In The Form Of A Array Of Game Objects
         /// </summary>
         /// <returns></returns>
         public Game[] GetTopTenGames() 
         {
-
             using (var client = new WebClient())
             {
                 client.Headers.Add("Authorization: Bearer " + _auth);
                 client.Headers.Add("Client-Id: " + _id);
 
-                // just break this out for easier debugging
                 var jsonString = client.DownloadString("https://api.twitch.tv/helix/games/top");
                 TopGamesResponse result = JsonConvert.DeserializeObject<TopGamesResponse>(jsonString);
 
                 return result.Data;
-
             }
         }
 
@@ -48,7 +43,6 @@ namespace HelloWorld.Services
         /// </summary>
         private class TopGamesResponse 
         {
-           
             protected class PaginationObject
             {
                 public string cursor { get; set; }
@@ -57,7 +51,6 @@ namespace HelloWorld.Services
             public Game[] Data { get; set; }
             protected PaginationObject Pagination { get; set; }
         }
-
     }
 }
 

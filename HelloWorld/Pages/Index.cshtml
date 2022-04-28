@@ -1,5 +1,5 @@
 ﻿@page
-@model IndexModel
+@model IEnumerable<HelloWorld.Models.Game>
 @{
     ViewData["Title"] = "Home page";
 }
@@ -14,13 +14,13 @@
         </thead>
         <tbody>
            @{
-                foreach (var Game in Model.GameList)
-                {
-                    <tr>
-                        <td><img src = @Game.Box_art_url.Replace("{width}", "144").Replace("{height}", "192")></td>
-                        <td>@Game.Name</td>
-                    </tr>
-                }
+                //foreach (var Game in Model.GameList)
+                //
+                //    <tr>
+                //        <td><img src = @Game.Box_art_url.Replace("{width}", "144").Replace("{height}", "192")></td>
+                //        <td>@Game.Name</td>
+                //    </tr>
+                //}
             }
 
         </tbody>
