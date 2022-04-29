@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HelloWorld
 {
@@ -14,15 +15,29 @@ namespace HelloWorld
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false).Build();
+            CreateHostBuilder(args, config).Build().Run();
         }
 
-  
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+    
+    
+      
+
+
+        public static IHostBuilder CreateHostBuilder(string[] args, IConfiguration config) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                //    webBuilder.ConfigureServices()
+                })
+                .ConfigureServices(services =>
+                    {
+                        
+                        // inject services here
+                        services.AddSingleton(config);
+                    });
+ 
+
     }
 }
