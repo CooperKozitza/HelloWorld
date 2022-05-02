@@ -3,14 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using HelloWorld.Models;
 using HelloWorld.Data;
-using HelloWorld.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelloWorld
 {
@@ -18,16 +14,14 @@ namespace HelloWorld
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false).Build();
 
-            var host = CreateHostBuilder(args).Build();
-
+            var host = CreateHostBuilder(args, config).Build();
             CreateDatabaseIfNotExists(host);
-
             host.Run();
-        }
 
-        
+            CreateHostBuilder(args, config).Build().Run();
+        }
 
         private static void CreateDatabaseIfNotExists(IHost host)
         {
@@ -47,11 +41,19 @@ namespace HelloWorld
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args, IConfiguration config) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+            .ConfigureServices(services =>
+                {
+                    // inject services here
+                    services.AddDbContext<Context>(options =>
+                        options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+
+                    services.AddDatabaseDeveloperPageExceptionFilter();
                 });
     }
 }

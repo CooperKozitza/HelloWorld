@@ -15,7 +15,9 @@ namespace HelloWorld.Data
             context.Database.EnsureCreated();
 
             if (context.Games.Any()) // look for existing data
+            {
                 return; // DB has been seeded
+            }
 
             var games = new Game[] // sample data
             {
@@ -25,7 +27,9 @@ namespace HelloWorld.Data
             };
 
             foreach (var game in games)
+            {
                 context.Games.Add(game);
+            }
 
             context.SaveChanges();
         }
