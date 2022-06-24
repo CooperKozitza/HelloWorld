@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using System;
+using System.Collections.Generic;
 using HelloWorld.Models;
 using Newtonsoft.Json;
 
@@ -24,32 +26,25 @@ namespace HelloWorld.Services
         /// Returns Array Of Top Games Streaming On Twitch From Twitch API In The Form Of A Array Of Game Objects
         /// </summary>
         /// <returns></returns>
-        public Game[] GetTopTenGames() 
+        public IList<Game> GetTopTenGames() 
         {
             using (var client = new WebClient())
             {
+                IList<Game> topTenGames = new List<Game>();
+
                 client.Headers.Add("Authorization: Bearer " + _auth);
                 client.Headers.Add("Client-Id: " + _id);
 
                 var jsonString = client.DownloadString("https://api.twitch.tv/helix/games/top");
-                TopGamesResponse result = JsonConvert.DeserializeObject<TopGamesResponse>(jsonString);
+                dynamic result = JsonConvert.DeserializeObject(jsonString);
 
-                return result.Data;
+                foreach (var game in result.data)
+                {
+                    topTenGames.Add(new Game { GameId = game.id, Name = game.name, Box_art_url = game.box_art_url});
+                }
+
+                return topTenGames;
             }
-        }
-
-        /// <summary>
-        /// Response Object Format Of Top Games JSON 
-        /// </summary>
-        private class TopGamesResponse 
-        {
-            protected class PaginationObject
-            {
-                public string cursor { get; set; }
-            }
-
-            public Game[] Data { get; set; }
-            protected PaginationObject Pagination { get; set; }
         }
     }
 }

@@ -20,7 +20,6 @@ namespace HelloWorld
             CreateDatabaseIfNotExists(host);
             host.Run();
 
-            CreateHostBuilder(args, config).Build().Run();
         }
 
         private static void CreateDatabaseIfNotExists(IHost host)

@@ -1,6 +1,8 @@
 ﻿using HelloWorld.Models;
+using HelloWorld.Services;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace HelloWorld.Data
 {
@@ -19,12 +21,9 @@ namespace HelloWorld.Data
                 return; // DB has been seeded
             }
 
-            var games = new Game[] // sample data
-            {
-                new Game{ID = 1, Name = "test game 1", Box_art_url = "image url"},
-                new Game{ID = 2, Name = "test game 2", Box_art_url = "image url"},
-                new Game{ID = 3, Name = "test game 3", Box_art_url = "image url"}
-            };
+            var api = new TwitchAPI("rxxoreg3dh7ts96qp8yy77ygk4wi1k", "bscma5xlv1ylbfxj8wafj1jmkt2ycs");
+
+            IList<Game> games = api.GetTopTenGames();
 
             foreach (var game in games)
             {

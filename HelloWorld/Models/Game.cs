@@ -7,7 +7,8 @@ namespace HelloWorld.Models
 {
     public class Game
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
+        public int GameId { get; set; }
         public string Name { get; set; }
         public string Box_art_url { get; set; }
 

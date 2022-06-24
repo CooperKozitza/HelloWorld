@@ -9,6 +9,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using HelloWorld.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
 
 namespace HelloWorld.Pages
 {
@@ -21,27 +26,24 @@ namespace HelloWorld.Pages
         // Model definitions end here
 
         private readonly ILogger<IndexModel> _logger; // nice we'll use this later
+        private readonly Context _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, Context context)
         {
             _logger = logger;
+            _context = context;
         }
         
         /// <summary>
         /// Called before the page loads, allowing you to set up the variables 
         /// that you want to use in the razor page when it draws
         /// </summary>
+
         public void OnGet()
         {
 
-            //create new API using Auth Token and Client ID
-            // probalby should move these into a config file but I think ultimatly 
-            // we'll want to be pulling them in differnetly, via OATH or something else so maybe not worry about that
-            // yet
-            var  api = new TwitchAPI("or94frz4dm83ru11ql2x9jlik2x9hd", "bscma5xlv1ylbfxj8wafj1jmkt2ycs");
-
             //create array to hold top ten games
-            GameList = api.GetTopTenGames();
+            GameList = _context.Games.ToArray();
         }
     }
 }
